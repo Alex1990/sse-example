@@ -1,0 +1,18 @@
+{
+  "name": "sse-example",
+  "version": "1.0.0",
+  "description": "A Server-Sent Events example with NodeJs and Express",
+  "main": "sse-server.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Alex1990/sse-example.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Chao",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Server-Sent Events Example</title>
+  <style>
+    form {
+      font-size: 16px;
+      margin-bottom: 1em;
+    }
+    button {
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <button type="button" id="close">关闭连接</button>
+  </form>
+  <div id="message"></div>
+  <div id="result"></div>
+
+  <script>
+  var ev = new EventSource('/sseapi');
+
+  // 打印`ev`
+  console.log('ev:', ev);
+
+  ev.addEventListener('message', function (e) {
+
+    // 打印事件对象`e`
+    console.log('e:', e);
+
+    var message = document.getElementById('message');
+    message.innerHTML = e.data;
+  }, false);
+
+  ev.addEventListener('init', function (e) {
+    var result = document.getElementById('result');
+    var data = JSON.parse(e.data);
+    result.innerHTML = '<p>Username: <span id="username">' +
+                      data.username + '</span><br>' +
+                      'Score: <span id="score">' +
+                      data.score + '</span></p>';
+  }, false);
+
+  ev.addEventListener('update', function (e) {
+    var data = JSON.parse(e.data);
+    var score = document.getElementById('score');
+    score.innerHTML = data.score;
+  }, false);
+
+  ev.addEventListener('open', function (e) {
+    console.log('Connection was opened.');
+  }, false);
+
+  ev.addEventListener('error', function (e) {
+    console.error('Connection came across an error.');
+  }, false);
+
+  var closeBtn = document.getElementById('close');
+
+  closeBtn.addEventListener('click', function (e) {
+    ev.close();
+    console.log('EventSource was closed.');
+    console.log('ev:', ev);
+  }, false);
+  </script>
+</body>
+</html>
